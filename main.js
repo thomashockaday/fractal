@@ -20,7 +20,7 @@ function drawFractal() {
   const maxLevel = 6;
   const spread = Math.random() * 4 - 2;
   const scale = Math.random() * 0.1 + 0.5;
-  const branches = Math.floor(Math.random() * 2) + 1;
+  const branches = Math.floor(Math.random() * 3) + 1;
 
   ctx.clearRect(0, 0, SIZE, SIZE);
 
@@ -58,7 +58,7 @@ function drawBranch(level, maxLevel, spread, scale, branches, hue) {
     ctx.save();
     ctx.translate(position, 0);
     ctx.scale(scale, scale);
-    ctx.rotate(spread);
+    ctx.rotate(spread * (i - (branches - spread * 5) / 2));
     drawBranch(level + 1, maxLevel, spread, scale, branches, hue);
     ctx.restore();
   }
