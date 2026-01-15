@@ -10,7 +10,7 @@ class Fractal {
     this.maxLevel = 5;
     this.spread = Math.random() * 0.5 + 0.4;
     this.scale = Math.random() * 0.1 + 0.7;
-    this.branches = 4;
+    this.branches = 3;
     this.branchSize = 150;
     this.drawMode = drawMode;
   }
@@ -46,6 +46,23 @@ class Fractal {
       ctx.beginPath();
       ctx.arc(this.branchSize, 50, this.lineWidth, 0, Math.PI * 2);
       ctx.fill();
+    } else if (this.drawMode === "sparks") {
+      if (level > this.maxLevel - 4 && Math.random() < 0.1) {
+        ctx.fillStyle = `hsl(${this.hue + 10}, 100%, ${lightness + 20}%)`;
+        ctx.globalAlpha = 0.6;
+
+        for (let i = 0; i < 5; i++) {
+          ctx.save();
+          ctx.translate(150, 150);
+          ctx.rotate(((Math.PI * 2) / 5) * i);
+          ctx.beginPath();
+          ctx.ellipse(0, 8, 4, 50, 0, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+
+        ctx.globalAlpha = 1;
+      }
     }
 
     for (let i = 0; i < this.branches; i++) {
@@ -64,10 +81,13 @@ class Fractal {
 function drawFractal() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  const fractal = new Fractal("circles");
+  const fractal = new Fractal("branches");
   fractal.draw(ctx);
 
-  fractal.drawMode = "branches";
+  fractal.drawMode = "circles";
+  fractal.draw(ctx);
+
+  fractal.drawMode = "sparks";
   fractal.draw(ctx);
 }
 
