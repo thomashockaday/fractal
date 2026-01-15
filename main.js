@@ -2,16 +2,6 @@ const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
 const mutateBtn = document.getElementById("mutateBtn");
 
-const SIZE = 700;
-canvas.height = SIZE;
-canvas.width = SIZE;
-
-ctx.lineCap = "round";
-ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
-ctx.shadowBlur = 10;
-ctx.shadowOffsetX = 3;
-ctx.shadowOffsetY = 3;
-
 class Fractal {
   constructor() {
     this.lineWidth = Math.floor(Math.random() * 11) + 5;
@@ -25,11 +15,11 @@ class Fractal {
   }
 
   draw(ctx) {
-    ctx.clearRect(0, 0, SIZE, SIZE);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     ctx.lineWidth = this.lineWidth;
     ctx.save();
-    ctx.translate(SIZE / 2, SIZE / 2);
+    ctx.translate(canvas.width / 2, canvas.height / 2);
 
     for (let i = 0; i < this.sides; i++) {
       this.drawBranch(ctx, 0);
@@ -71,5 +61,21 @@ function drawFractal() {
   fractal.draw(ctx);
 }
 
-drawFractal();
 mutateBtn.addEventListener("click", drawFractal);
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  ctx.lineCap = "round";
+  ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
+  ctx.shadowBlur = 10;
+  ctx.shadowOffsetX = 3;
+  ctx.shadowOffsetY = 3;
+
+  drawFractal();
+}
+
+window.addEventListener("resize", resizeCanvas);
+
+resizeCanvas();

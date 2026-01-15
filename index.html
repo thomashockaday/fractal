@@ -13,19 +13,15 @@
       }
 
       body {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
+        overflow: hidden;
         background: linear-gradient(to bottom, #000000, #0a0a1a);
       }
 
-      #canvas1 {
-        border: 0px solid white;
-      }
-
       #mutateBtn {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
         margin-top: 20px;
         padding: 12px 24px;
         background: rgba(255, 255, 255, 0.1);
