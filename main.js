@@ -7,9 +7,9 @@ canvas.height = SIZE;
 canvas.width = SIZE;
 
 ctx.strokeStyle = "white";
-ctx.lineWidth = 2;
 
 function drawFractal() {
+  const lineWidth = Math.floor(Math.random() * 11) + 5;
   const sides = 5;
   const maxLevel = 7;
   const spread = Math.random() * 2 - 0.5;
@@ -18,6 +18,7 @@ function drawFractal() {
 
   ctx.clearRect(0, 0, SIZE, SIZE);
 
+  ctx.lineWidth = lineWidth;
   ctx.save();
   ctx.translate(SIZE / 2, SIZE / 2);
 
