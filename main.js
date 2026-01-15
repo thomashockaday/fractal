@@ -1,5 +1,6 @@
 const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
+const mutateBtn = document.getElementById("mutateBtn");
 
 const SIZE = 600;
 canvas.height = SIZE;
@@ -12,6 +13,8 @@ function drawFractal() {
   const sides = 5;
   const maxLevel = 5;
   const spread = Math.random() * 2 + 0.5;
+
+  ctx.clearRect(0, 0, SIZE, SIZE);
 
   ctx.save();
   ctx.translate(SIZE / 2, SIZE / 2);
@@ -48,3 +51,5 @@ function drawBranch(level, maxLevel, spread) {
 }
 
 drawFractal();
+
+mutateBtn.addEventListener("click", drawFractal);
