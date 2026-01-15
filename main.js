@@ -2,7 +2,7 @@ const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
 const mutateBtn = document.getElementById("mutateBtn");
 
-const SIZE = 600;
+const SIZE = 700;
 canvas.height = SIZE;
 canvas.width = SIZE;
 
@@ -16,11 +16,11 @@ function drawFractal() {
   const lineWidth = Math.floor(Math.random() * 11) + 5;
   const hue = Math.random() * 360;
 
-  const sides = 5;
-  const maxLevel = 6;
-  const spread = Math.random() * 4 - 2;
-  const scale = Math.random() * 0.1 + 0.5;
-  const branches = Math.floor(Math.random() * 3) + 1;
+  const sides = Math.floor(Math.random() * 7) + 2;
+  const maxLevel = 5;
+  const spread = Math.random() * 0.5 + 0.4;
+  const scale = Math.random() * 0.1 + 0.7;
+  const branches = Math.floor(Math.random() * 2) + 2;
 
   ctx.clearRect(0, 0, SIZE, SIZE);
 
