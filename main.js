@@ -6,15 +6,21 @@ const SIZE = 600;
 canvas.height = SIZE;
 canvas.width = SIZE;
 
-ctx.strokeStyle = "white";
+ctx.lineCap = "round";
+ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
+ctx.shadowBlur = 10;
+ctx.shadowOffsetX = 3;
+ctx.shadowOffsetY = 3;
 
 function drawFractal() {
   const lineWidth = Math.floor(Math.random() * 11) + 5;
+  const hue = Math.random() * 360;
+
   const sides = 5;
-  const maxLevel = 7;
-  const spread = Math.random() * 2 - 0.5;
-  const scale = Math.random() * 0.15 + 0.65;
-  const branches = 2;
+  const maxLevel = 6;
+  const spread = Math.random() * 4 - 2;
+  const scale = Math.random() * 0.1 + 0.5;
+  const branches = Math.floor(Math.random() * 2) + 1;
 
   ctx.clearRect(0, 0, SIZE, SIZE);
 
@@ -23,7 +29,7 @@ function drawFractal() {
   ctx.translate(SIZE / 2, SIZE / 2);
 
   for (let i = 0; i < sides; i++) {
-    drawBranch(0, maxLevel, spread, scale, branches);
+    drawBranch(0, maxLevel, spread, scale, branches, hue);
 
     ctx.rotate((Math.PI * 2) / sides);
   }
@@ -31,12 +37,15 @@ function drawFractal() {
   ctx.restore();
 }
 
-function drawBranch(level, maxLevel, spread, scale, branches) {
+function drawBranch(level, maxLevel, spread, scale, branches, hue) {
   if (level > maxLevel) {
     return;
   }
 
-  const branchSize = 100;
+  const branchSize = 150;
+  const lightness = 40 + level * 6;
+
+  ctx.strokeStyle = `hsl(${hue}, 100%, ${lightness}%)`;
 
   ctx.beginPath();
   ctx.moveTo(0, 0);
@@ -50,7 +59,7 @@ function drawBranch(level, maxLevel, spread, scale, branches) {
     ctx.translate(position, 0);
     ctx.scale(scale, scale);
     ctx.rotate(spread);
-    drawBranch(level + 1, maxLevel, spread, scale, branches);
+    drawBranch(level + 1, maxLevel, spread, scale, branches, hue);
     ctx.restore();
   }
 }
