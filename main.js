@@ -12,7 +12,8 @@ ctx.lineWidth = 20;
 function drawFractal() {
   const sides = 5;
   const maxLevel = 5;
-  const spread = Math.random() * 2 + 0.5;
+  const spread = Math.random() * 2 - 0.5;
+  const scale = Math.random() * 0.15 + 0.65;
 
   ctx.clearRect(0, 0, SIZE, SIZE);
 
@@ -20,7 +21,7 @@ function drawFractal() {
   ctx.translate(SIZE / 2, SIZE / 2);
 
   for (let i = 0; i < sides; i++) {
-    drawBranch(0, maxLevel, spread);
+    drawBranch(0, maxLevel, spread, scale);
 
     ctx.rotate((Math.PI * 2) / sides);
   }
@@ -28,7 +29,7 @@ function drawFractal() {
   ctx.restore();
 }
 
-function drawBranch(level, maxLevel, spread) {
+function drawBranch(level, maxLevel, spread, scale) {
   if (level > maxLevel) {
     return;
   }
@@ -43,9 +44,9 @@ function drawBranch(level, maxLevel, spread) {
   for (let i = 0; i < maxLevel; i++) {
     ctx.save();
     ctx.translate(branchSize, 0);
-    ctx.scale(0.7, 0.7);
+    ctx.scale(scale, scale);
     ctx.rotate(spread);
-    drawBranch(level + 1, maxLevel, spread);
+    drawBranch(level + 1, maxLevel, spread, scale);
     ctx.restore();
   }
 }
