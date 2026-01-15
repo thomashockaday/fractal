@@ -112,8 +112,8 @@ function drawFractal() {
   fractal.drawMode = "sparks";
   fractal.draw(ctx);
 
-  fractal.drawMode = "electricity";
-  fractal.draw(ctx);
+  //   fractal.drawMode = "electricity";
+  //   fractal.draw(ctx);
 }
 
 mutateBtn.addEventListener("click", drawFractal);
