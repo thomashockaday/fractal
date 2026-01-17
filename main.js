@@ -1,119 +1,23 @@
-const canvas = document.getElementById("canvas1");
+const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const mutateBtn = document.getElementById("mutateBtn");
-
-class Fractal {
-  constructor(drawMode) {
-    this.lineWidth = Math.floor(Math.random() * 11) + 5;
-    this.hue = Math.random() * 360;
-    this.sides = Math.floor(Math.random() * 7) + 2;
-    this.maxLevel = 5;
-    this.spread = Math.random() * 0.5 + 0.4;
-    this.scale = Math.random() * 0.1 + 0.7;
-    this.branches = 3;
-    this.branchSize = 150;
-    this.drawMode = drawMode;
-  }
-
-  draw(ctx) {
-    ctx.lineWidth = this.lineWidth;
-    ctx.save();
-    ctx.translate(canvas.width / 2, canvas.height / 2);
-
-    for (let i = 0; i < this.sides; i++) {
-      this.drawBranch(ctx, 0);
-      ctx.rotate((Math.PI * 2) / this.sides);
-    }
-
-    ctx.restore();
-  }
-
-  drawBranch(ctx, level) {
-    if (level > this.maxLevel) {
-      return;
-    }
-
-    const lightness = 10 + level * 6;
-
-    if (this.drawMode === "branches") {
-      ctx.strokeStyle = `hsl(${this.hue}, 100%, ${lightness}%)`;
-      ctx.beginPath();
-      ctx.moveTo(0, 0);
-      ctx.lineTo(this.branchSize, 0);
-      ctx.stroke();
-    } else if (this.drawMode === "circles") {
-      ctx.fillStyle = `hsl(${this.hue + 10}, 100%, ${lightness - 10}%)`;
-      ctx.beginPath();
-      ctx.arc(this.branchSize, 50, this.lineWidth, 0, Math.PI * 2);
-      ctx.fill();
-    } else if (this.drawMode === "sparks") {
-      if (level > this.maxLevel - 4 && Math.random() < 0.1) {
-        ctx.fillStyle = `hsl(${this.hue + 10}, 100%, ${lightness + 20}%)`;
-        ctx.globalAlpha = 0.6;
-
-        for (let i = 0; i < 5; i++) {
-          ctx.save();
-          ctx.translate(150, 150);
-          ctx.rotate(((Math.PI * 2) / 5) * i);
-          ctx.beginPath();
-          ctx.ellipse(0, 8, 4, 50, 0, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.restore();
-        }
-
-        ctx.globalAlpha = 1;
-      }
-    } else if (this.drawMode === "electricity") {
-      if (level < this.maxLevel - 2) {
-        ctx.strokeStyle = `hsl(${this.hue}, 100%, ${lightness}%)`;
-
-        ctx.save();
-
-        ctx.lineWidth = 2;
-        ctx.shadowColor = `hsl(${this.hue}, 100%, 90%)`;
-        ctx.shadowBlur = 5;
-        ctx.shadowOffsetX = 0;
-        ctx.shadowOffsetY = 0;
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.lineTo(this.branchSize * 0.2, Math.random() * 20 - 10);
-        ctx.lineTo(this.branchSize * 0.4, Math.random() * 50 - 25);
-        ctx.lineTo(this.branchSize * 0.6, Math.random() * 200 - 100);
-        ctx.lineTo(this.branchSize * 0.8, Math.random() * 100 - 50);
-        ctx.lineTo(this.branchSize, Math.random() * 40 - 20);
-        ctx.stroke();
-
-        ctx.restore();
-      }
-    }
-
-    for (let i = 0; i < this.branches; i++) {
-      const position = this.branchSize - (this.branchSize / this.branches) * i;
-
-      ctx.save();
-      ctx.translate(position, 0);
-      ctx.scale(this.scale, this.scale);
-      ctx.rotate((this.spread * 2 * i) / this.branches - this.spread);
-      this.drawBranch(ctx, level + 1);
-      ctx.restore();
-    }
-  }
-}
 
 function drawFractal() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  const fractal = new Fractal("branches");
+  const fractal = new Fractal();
+
+  fractal.drawMode = new Branches();
   fractal.draw(ctx);
 
-  fractal.drawMode = "circles";
+  fractal.drawMode = new Circles();
   fractal.draw(ctx);
 
-  fractal.drawMode = "sparks";
+  fractal.drawMode = new Sparks();
   fractal.draw(ctx);
 
-  //   fractal.drawMode = "electricity";
-  //   fractal.draw(ctx);
+  // fractal.drawMode = new Electricity();
+  // fractal.draw(ctx);
 }
 
 mutateBtn.addEventListener("click", drawFractal);
